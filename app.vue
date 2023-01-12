@@ -1,6 +1,38 @@
 <template>
   <div id="app">
-    <v-app>
+    <v-app :theme="theme.currentTheme.name">
+      <v-app-bar v-if="mobile" density="compact">
+        <template v-slot:prepend>
+          <v-app-bar-nav-icon @click="drawer.visible = !drawer.visible"></v-app-bar-nav-icon>
+        </template>
+        <v-btn :icon="theme.currentTheme.dark === false ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click="theme.toggleTheme()"></v-btn>
+      </v-app-bar>
+      <v-navigation-drawer expand-on-hover rail v-model="drawer.visible" :location="drawer.location" :temporary="drawer.temporary">
+        <v-list>
+          <v-list-item
+            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+            title="Sandra Adams"
+            subtitle="sandra_a88@gmailcom"
+          ></v-list-item>
+        </v-list>
+
+        <v-divider></v-divider>
+
+        <v-list>
+          <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
+          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
+        </v-list>
+
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item
+            :prepend-icon="theme.currentTheme.dark === false ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+            title="Theme"
+            @click="theme.toggleTheme()"
+          ></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
       <v-main>
         <!--  Markup shared across all pages, ex: NavBar -->
         <NuxtPage />
@@ -10,6 +42,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Ref } from 'vue'
+import { useDisplay } from 'vuetify'
+const { width, mobile } = useDisplay()
+
 //* Page Meta
 useHead({
   title: 'Nuxt app',
@@ -20,10 +56,8 @@ useHead({
   },
   script: [{ children: "console.log('Nuxt app')" }],
 })
-
 //* Stores
 const store = useNuxtStore()
-
 //* Created
 if (store.env === '') {
   const env = await $fetch('/api/env')
@@ -31,6 +65,33 @@ if (store.env === '') {
 }
 if (process.client) {
   console.log('Nuxt 3 app listening on ' + window.location.protocol + '//' + window.location.host + ' in ' + store.env + ' environment.')
+}
+
+//* Variables
+type DrawerLocation = 'bottom' | 'start' | 'end' | 'left' | 'right' | undefined
+const drawer: Ref<{ visible: boolean; location: DrawerLocation; temporary: boolean }> = ref({
+  visible: true,
+  location: 'start' as DrawerLocation,
+  temporary: false,
+})
+const test: Ref<string> = ref('test')
+//* Mount
+onMounted(() => {
+  setDrawerLocation()
+})
+//* Watch
+watch(mobile, async (newValue, oldValue) => {
+  setDrawerLocation()
+})
+
+//* Functions
+function setDrawerLocation() {
+  if (mobile.value === true) {
+    drawer.value.location = 'bottom'
+    drawer.value.temporary = false
+  } else {
+    drawer.value.location = 'start'
+  }
 }
 </script>
 
