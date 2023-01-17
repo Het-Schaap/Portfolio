@@ -14,6 +14,8 @@
             :prepend-icon="activeUser.userAvatar ? '' : 'mdi-account-circle'"
             :title="activeUser.userName"
             :subtitle="activeUser.userEmail"
+            value="user"
+            class="drawer-item darker"
           ></v-list-item>
         </v-list>
 

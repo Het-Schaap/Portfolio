@@ -19,6 +19,7 @@ body {
   --primary-lighten-2: #e6c9ff;
   --primary-darken-1: #9f6cdf;
   --primary-darken-2: #8353c3;
+  --primary-darken-3: #6d3aa3;
   --secondary: #03dac5;
   --secondary-lighten-1: #47f7e1;
   --secondary-lighten-2: #7ffef4;
@@ -31,8 +32,18 @@ body {
 }
 
 .drawer-item {
+  transition: background-color 0.1s;
+  .v-list-item__prepend .v-icon {
+    transition: transform 0.2s;
+  }
   &:hover {
     background-color: var(--primary-darken-2);
+    .v-list-item__prepend .v-icon {
+      transform: scale(1.2);
+    }
+    &.darker {
+      background-color: var(--primary-darken-3);
+    }
   }
   &.v-list-item--active {
     &:hover {
@@ -41,15 +52,12 @@ body {
   }
 }
 
-.icon {
-}
-
 #contact {
-  padding: 100px 50px;
+  padding: 100px 5vw;
   form {
     border-top: 1px solid var(--surface-variant);
     margin-top: 50px;
-    padding: 50px;
+    padding: clamp(20px, 1vw, 50px) 1vw;
     button {
       .v-btn__content {
         .icon {
