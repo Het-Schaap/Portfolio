@@ -10,26 +10,34 @@
       <v-navigation-drawer expand-on-hover rail v-model="drawer.visible" :location="drawer.location" :temporary="drawer.temporary">
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-            title="Sandra Adams"
-            subtitle="sandra_a88@gmailcom"
+            :prepend-avatar="activeUser.userAvatar ? activeUser.userAvatar : ''"
+            :prepend-icon="activeUser.userAvatar ? '' : 'mdi-account-circle'"
+            :title="activeUser.userName"
+            :subtitle="activeUser.userEmail"
           ></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
 
         <v-list>
-          <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
-        </v-list>
+          <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles" color="primary" class="drawer-item"></v-list-item>
+          <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared" color="primary" class="drawer-item"></v-list-item>
+          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred" color="primary" class="drawer-item"></v-list-item>
 
-        <v-divider></v-divider>
-        <v-list>
+          <v-divider></v-divider>
+
+          <v-list-item prepend-icon="mdi-home" title="Home" value="home" @click="navigateTo('/')" color="primary" class="drawer-item"></v-list-item>
+          <v-list-item prepend-icon="mdi-email" title="Contact" value="contact" @click="navigateTo('/contact')" color="primary" class="drawer-item">
+          </v-list-item>
+
+          <v-divider></v-divider>
+
           <v-list-item
             :prepend-icon="theme.currentTheme.dark === false ? 'mdi-weather-sunny' : 'mdi-weather-night'"
             title="Theme"
             @click="theme.toggleTheme()"
+            color="primary"
+            class="drawer-item"
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>

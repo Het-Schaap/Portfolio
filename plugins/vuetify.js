@@ -27,7 +27,7 @@ const customDark = {
     secondary: '#0FF4C6',
     //// 'secondary-darken-1': '#018786',
     error: '#D7263D',
-    info: '#DEFFF2 ',
+    info: '#DEFFF2',
     success: '#00A878',
     warning: '#AA5042',
   },
@@ -38,6 +38,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     components,
     directives,
     theme: {
+      options: { customProperties: true },
       defaultTheme: 'dark',
       variations: {
         colors: ['primary', 'secondary'],

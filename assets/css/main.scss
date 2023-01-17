@@ -8,4 +8,58 @@ body {
   input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  --surface-variant: #bdbdbd;
+  --surface-variant-lighten-1: #e0e0e0;
+  --surface-variant-lighten-2: #eeeeee;
+  --surface-variant-darken-1: #9e9e9e;
+  --surface-variant-darken-2: #757575;
+  --primary: #bb86fc;
+  --primary-lighten-1: #d8a1ff;
+  --primary-lighten-2: #e6c9ff;
+  --primary-darken-1: #9f6cdf;
+  --primary-darken-2: #8353c3;
+  --secondary: #03dac5;
+  --secondary-lighten-1: #47f7e1;
+  --secondary-lighten-2: #7ffef4;
+  --secondary-darken-1: #00beaa;
+  --secondary-darken-2: #00a28f;
+  --info: #2196f3;
+  --success: #4caf50;
+  --error: #cf6679;
+  --warning: #fb8c00;
+}
+
+.drawer-item {
+  &:hover {
+    background-color: var(--primary-darken-2);
+  }
+  &.v-list-item--active {
+    &:hover {
+      background-color: #292929;
+    }
+  }
+}
+
+.icon {
+}
+
+#contact {
+  padding: 100px 50px;
+  form {
+    border-top: 1px solid var(--surface-variant);
+    margin-top: 50px;
+    padding: 50px;
+    button {
+      .v-btn__content {
+        .icon {
+          margin-right: 0.2em;
+          transition: transform 0.2s;
+        }
+        &:hover .icon {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
 }

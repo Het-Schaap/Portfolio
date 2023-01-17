@@ -13,7 +13,29 @@ export const useNuxtStore = defineStore('nuxt-store', {
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useNuxtStore, import.meta.hot))
 }
-
+export const activeUser = {
+  _userName: ref('Nick'),
+  _userEmail: ref('Nick.schaap2000@outlook.com'),
+  _userAvatar: ref(''),
+  get userName() {
+    return this._userName.value
+  },
+  get userEmail() {
+    return this._userEmail.value
+  },
+  get userAvatar() {
+    return this._userAvatar.value
+  },
+  set userName(newName: string) {
+    this._userName.value = newName
+  },
+  set userEmail(newEmail: string) {
+    this._userEmail.value = newEmail
+  },
+  set userAvatar(newAvatar: string) {
+    this._userAvatar.value = newAvatar
+  },
+}
 export const theme = {
   _currentTheme: ref({ name: 'dark', dark: true }),
   _knownThemes: ref([
@@ -65,7 +87,6 @@ export const theme = {
         return theme.name === newThemeName
       })[0] || ''
     if (newTheme) {
-
       this.currentTheme = newTheme
     } else {
       console.error('theme not found', newThemeName)
