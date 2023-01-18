@@ -1,6 +1,6 @@
 <template>
   <div id="contact">
-    <div>
+    <div id="contact-text">
       <h1 class="text-primary">Contact</h1>
       <br />
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut risus tortor, congue ut gravida sit amet, condimentum quis risus. Sed quis auctor
@@ -25,41 +25,62 @@
       elit sed posuere elementum. Donec sit amet congue odio. Phasellus vestibulum ligula tristique, ullamcorper felis vel, ultrices augue. Fusce
       lacinia sapien ligula, sit amet varius felis luctus et. Mauris est mauris, hendrerit id ligula ut, dignissim sollicitudin purus. <br />
     </div>
-    <v-form>
-      <v-text-field v-model="msg.subject" label="Subject" placeholder="Subject" outlined dense color="primary"></v-text-field>
-      <v-textarea v-model="msg.text" label="Text" placeholder="Text" outlined color="primary"></v-textarea>
-      <v-btn @click="sendMail()" color="primary"><v-icon class="icon">mdi-email-fast</v-icon>Send</v-btn>
-    </v-form>
+    <div id="contact-form">
+      <v-form @submit.prevent="sendMail()" v-if="!formSent && !formFailed">
+        <v-text-field v-model="msg.userEmail" label="Email" placeholder="Email" dense required color="primary"></v-text-field>
+        <v-text-field v-model="msg.subject" label="Subject" placeholder="Subject" outlined dense required color="primary"></v-text-field>
+        <v-textarea v-model="msg.text" label="Text" placeholder="Text" outlined required color="primary"></v-textarea>
+        <v-btn type="submit" color="primary"><v-icon class="icon">mdi-email-fast</v-icon>Send</v-btn>
+      </v-form>
+      <div v-else-if="formSent && !formFailed">
+        <h3 class="text-primary">Your message has been sent!</h3>
+      </div>
+      <div v-else>
+        <h3 class="text-primary">Something went wrong, please try again later.</h3>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, Ref } from 'vue'
 const route = useRoute()
 // const sgMail = require('@sendgrid/mail')
 // // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-const msg = {
+const msg = ref({
   to: '',
   from: '',
   subject: '',
   text: '',
   html: '',
-}
+  userEmail: '',
+})
 
-const mailFooterText = '\n\n\n This is an automated message from the contact form on the portfolio. \n\n User: ' + activeUser.userName
+let formSent: Ref<boolean> = ref(false)
+let formFailed: Ref<boolean> = ref(false)
 
 function sendMail() {
-  msg.subject = '[Contact form]' + msg.subject
-  msg.text = msg.text + mailFooterText
+  const message = msg.value
+  const mailFooterText = `\n\n\n This is an automated message from the contact form on the portfolio website. \n\n User: ${activeUser.userName} \n Email: ${message.userEmail}`
+  message.subject = '[Contact form]' + message.subject
+  message.text = message.text + mailFooterText
   //   sgMail
-  //     .send(msg)
+  //     .send(message)
   //     .then((response: any) => {
+  // formSent.value = true
   //       console.log(response[0].statusCode)
   //       console.log(response[0].headers)
   //     })
   //     .catch((error: any) => {
+  // formFailed.value = true
   //       console.error(error)
   //     })
+  formSent.value = true
+  console.log(msg.value)
+  msg.value.text = ''
+  msg.value.subject = ''
+  msg.value.userEmail = ''
 }
 </script>
 

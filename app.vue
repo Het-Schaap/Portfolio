@@ -16,6 +16,7 @@
             :subtitle="activeUser.userEmail"
             value="user"
             class="drawer-item darker"
+            color="primary"
           ></v-list-item>
         </v-list>
 
